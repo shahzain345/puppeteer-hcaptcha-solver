@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-hcaptcha-solver",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "repository": "https://github.com/shahzain345/puppeteer-hcaptcha-solver",
@@ -13,12 +13,9 @@
   "author": "Shahzain",
   "license": "ISC",
   "dependencies": {
-    "ghost-cursor": "^1.1.10",
+    "axios": "^0.27.2",
     "ghost-cursor-frames": "^1.1.10",
-    "ghost-cursor-iframe": "^1.1.8",
     "puppeteer": "^14.0.0",
-    "puppeteer-extra": "^3.2.3",
-    "puppeteer-extra-plugin-stealth": "^2.9.0",
     "python-shell": "^3.0.1",
     "ts-standard": "^11.0.0"
   },
