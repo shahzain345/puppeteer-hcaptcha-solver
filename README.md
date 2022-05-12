@@ -1,8 +1,11 @@
 # Puppteer-Hcaptcha-Solver
 
 Solve Hcaptcha on any website using puppeteer
+
 Author: Shahzain
+
 PRS Are greatly appreciated.
+
 # Installation:
 
 `yarn add puppeteer-hcaptcha-solver`
