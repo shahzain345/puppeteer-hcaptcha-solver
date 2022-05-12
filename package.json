@@ -1,8 +1,8 @@
 {
   "name": "puppeteer-hcaptcha-solver",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/shahzain345/puppeteer-hcaptcha-solver",
   "scripts": {
     "test": "node ./test/test.js",

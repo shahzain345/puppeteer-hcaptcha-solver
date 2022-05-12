@@ -4,7 +4,7 @@ import { Page, Frame, Browser } from 'puppeteer'
 import { get_result } from './python/get_result'
 import { install_py_files } from './installation'
 install_py_files()
-class PuppeterHcaptchaSolve {
+export class PuppeterHcaptchaSolve {
   browser: Browser
   constructor (browser) {
     this.browser = browser
@@ -100,4 +100,3 @@ class PuppeterHcaptchaSolve {
     }
   }
 }
-module.exports = { PuppeterHcaptchaSolve }
