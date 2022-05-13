@@ -27,7 +27,7 @@ export const install_py_files = async () => {
                     if (err) throw Error("Python3 not found. Please install python to use this package")
                 })
             }
-            exec('pip install opencv-python requests httpx') // Install all the required python modules.
+            exec('pip install opencv-python requests httpx flask') // Install all the required python modules.
         }, 4000)
     }
 }
