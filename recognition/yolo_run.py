@@ -24,4 +24,4 @@ def getresult():
         return str(e)
 
 if __name__ == '__main__':
-      app.run(host='0.0.0.0', port=7980) # start the webserver on port 6980 so we can make requests to it thru our javascript cuz python-shell is so fucking slow.
+      app.run(host='0.0.0.0', port=7980) # start the webserver on port 7980 so we can make requests to it thru our javascript. if we used python-shell it would run the file again and again which is gonna be slow ofc. this is a better approach
