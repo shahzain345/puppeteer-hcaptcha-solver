@@ -41,5 +41,5 @@ const puppeteer = require("puppeteer");
     }
 })()
 ```
-# Puppeteer-Hcaptcha-Solve in action
+# Puppeteer-Hcaptcha-Solver in action
 ![](https://hi.shahzain.me/r/puppeteer-hcaptcha.gif)
