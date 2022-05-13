@@ -41,5 +41,9 @@ const puppeteer = require("puppeteer");
     }
 })()
 ```
+# Does this package support puppeteer-extra?
+
+Yes! It does support puppeteer-extra.
+
 # Puppeteer-Hcaptcha-Solver in action
 ![](https://hi.shahzain.me/r/puppeteer-hcaptcha.gif)
