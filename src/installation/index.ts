@@ -28,6 +28,9 @@ export const install_py_files = async () => {
                 })
             }
             exec('pip install opencv-python requests httpx flask') // Install all the required python modules.
+            return true;
         }, 4000)
+    } else {
+        return true;
     }
 }
