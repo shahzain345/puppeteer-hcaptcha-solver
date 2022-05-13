@@ -47,7 +47,7 @@ export class PuppeterHcaptchaSolve {
     await cursor.click('.button-submit', {}, frame)
   }
 
-  async _click_good_images (frame: Frame, label: String, cursor: any) {
+  async _click_good_images (frame: Frame, label: string, cursor: any) {
     if (cursor != null) {
       setTimeout(async () => {
         for (let i = 0; i < 9; i++) {
@@ -61,7 +61,7 @@ export class PuppeterHcaptchaSolve {
           const style: string = await frame.evaluate((el) => el.getAttribute('style'), elementHandle)
           const url = style.split('url("')[1].split('")')[0]
           const res = await get_result(url, label)
-          if (res == 'true') {
+          if (res) {
             await cursor.click(`div.task-image:nth-child(${i + 1})`, {}, frame)
           }
           if (i == 8) {
