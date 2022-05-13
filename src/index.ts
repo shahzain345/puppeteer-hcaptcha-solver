@@ -9,11 +9,6 @@ export class PuppeterHcaptchaSolve {
   constructor (browser) {
     this.browser = browser
   }
-
-  /**
-     * hcaptcha.solve(page) method.
-     *
-     */
   async solve (page: Page) {
     const isElmPresent = await this._detect_captcha(page)
     if (isElmPresent) {
@@ -33,7 +28,7 @@ export class PuppeterHcaptchaSolve {
     }
   }
 
-  async _detect_captcha (page: Page) {
+  private async _detect_captcha (page: Page) {
     try {
       await page.waitForSelector('iframe')
 
@@ -43,11 +38,11 @@ export class PuppeterHcaptchaSolve {
     }
   }
 
-  async _click_submit (frame: Frame, cursor: any) {
+  private async _click_submit (frame: Frame, cursor: any) {
     await cursor.click('.button-submit', {}, frame)
   }
 
-  async _click_good_images (frame: Frame, label: string, cursor: any) {
+  private async _click_good_images (frame: Frame, label: string, cursor: any) {
     if (cursor != null) {
       setTimeout(async () => {
         for (let i = 0; i < 9; i++) {
@@ -73,7 +68,7 @@ export class PuppeterHcaptchaSolve {
     }
   }
 
-  async _get_label (label: string): Promise<string> {
+  private async _get_label (label: string): Promise<string> {
     if (label.includes('containing')) {
       label = label.includes('an') ? label.split('containing an ')[1] : label.split('containing a ')[1]
     }
