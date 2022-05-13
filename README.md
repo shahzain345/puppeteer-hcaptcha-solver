@@ -1,4 +1,4 @@
-# Puppteer-Hcaptcha-Solver
+# Puppeteer-hcaptcha-solver
 
 Solve Hcaptcha on any website using puppeteer
 
