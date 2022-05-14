@@ -14,14 +14,14 @@ export class PuppeterHcaptchaSolve {
     if (isElmPresent) {
       const cursor = await createCursor(page)
       await page.click('iframe')
-      const frame = page.frames()[1]
+      const frame = await page.frames()[1]
       if (frame !== null) {
         await frame.waitForSelector('.prompt-text')
         const elm = await frame.$('.prompt-text')
         const _challenge_question = await frame.evaluate(el => el.textContent, elm)
         const _label = await this._get_label(_challenge_question)
-        await this._click_good_images(frame, _label, cursor)
-        return true
+        const token = await this._click_good_images(frame, _label, cursor, page);
+        return token
       }
     } else {
       throw Error('Captcha not detected')
@@ -42,33 +42,38 @@ export class PuppeterHcaptchaSolve {
     await cursor.click('.button-submit', {}, frame)
   }
 
-  private async _click_good_images (frame: Frame, label: string, cursor: any) {
-    if (cursor != null) {
-      setTimeout(async () => {
-        for (let i = 0; i < 9; i++) {
-          await frame.waitForSelector(`div.task-image:nth-child(${i + 1})`, {
-            visible: true
-          })
-          await frame.waitForSelector(`div.task-image:nth-child(${i + 1}) > div:nth-child(2) > div:nth-child(1)`, {
-            visible: true
-          })
-          const elementHandle = await frame.$(`div.task-image:nth-child(${i + 1}) > div:nth-child(2) > div:nth-child(1)`)
-          const style: string = await frame.evaluate((el) => el.getAttribute('style'), elementHandle)
-          const url = style.split('url("')[1].split('")')[0]
-          const res = await get_result(url, label)
-          if (res) {
-            await cursor.click(`div.task-image:nth-child(${i + 1})`, {}, frame)
+  private async _click_good_images (frame: Frame, label: string, cursor: any, page: Page): Promise<string | undefined> {
+    return new Promise(async (resolve) => {
+      if (cursor !== null) {
+        setTimeout(async () => {
+          for (let i = 0; i < 9; i++) {
+            await frame.waitForSelector(`div.task-image:nth-child(${i + 1})`, {
+              visible: true
+            })
+            await frame.waitForSelector(`div.task-image:nth-child(${i + 1}) > div:nth-child(2) > div:nth-child(1)`, {
+              visible: true
+            })
+            const elementHandle = await frame.$(`div.task-image:nth-child(${i + 1}) > div:nth-child(2) > div:nth-child(1)`)
+            const style: string = await frame.evaluate((el) => el.getAttribute('style'), elementHandle)
+            const url = await style.split('url("')[1].split('")')[0]
+            const res = await get_result(url, label)
+            if (res) {
+              await cursor.click(`div.task-image:nth-child(${i + 1})`, {}, frame)
+            }
+            if (i == 8) {
+              await this._click_submit(frame, cursor)
+              setTimeout(async () => {
+                const token = await page.evaluate("hcaptcha.getResponse();");
+                resolve(token)
+              }, 2000)
+            }
           }
-          if (i == 8) {
-            await this._click_submit(frame, cursor)
-          }
-        }
-      }, 4000)
-      return true
-    }
+        }, 4000)
+      }
+    })
   }
 
-  private async _get_label (label: string): Promise<string> {
+  private _get_label (label: string): Promise<string> {
     if (label.includes('containing')) {
       label = label.includes('an') ? label.split('containing an ')[1] : label.split('containing a ')[1]
     }

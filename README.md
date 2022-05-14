@@ -34,7 +34,8 @@ const puppeteer = require("puppeteer");
         await page.waitForSelector("iframe")
         console.log("Hcaptcha detected")
         setTimeout(async () => {
-            await captcha.solve(page);
+            const token = await captcha.solve(page); // this function will return the hcaptcha_token string which u can use in other applications as well. 
+            console.log(token)
         }, 2000)
     } catch (e) {
         throw e

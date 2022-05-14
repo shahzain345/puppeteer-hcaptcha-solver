@@ -12,7 +12,9 @@ const puppeteer = require('puppeteer');
     await page.waitForSelector('iframe')
     console.log('Hcaptcha detected')
     setTimeout(async () => {
-      await captcha.solve(page)
+      const token = await captcha.solve(page)
+      console.log("Function resolvedd")
+      console.log(token)
     }, 2000)
   } catch (e) {
     throw e
