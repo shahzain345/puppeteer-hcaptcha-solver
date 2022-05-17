@@ -1,5 +1,4 @@
 // Author: Shahzain
-import { createCursor } from 'ghost-cursor-frames'
 import { Page, Frame, Browser } from 'puppeteer'
 import { get_result } from './python/get_result'
 import { install_py_files } from './installation'
@@ -12,7 +11,6 @@ export class PuppeterHcaptchaSolve {
   async solve (page: Page) {
     const isElmPresent = await this._detect_captcha(page)
     if (isElmPresent) {
-      const cursor = await createCursor(page)
       await page.click('iframe')
       const frame = await page.frames()[1]
       if (frame !== null) {
@@ -20,7 +18,7 @@ export class PuppeterHcaptchaSolve {
         const elm = await frame.$('.prompt-text')
         const _challenge_question = await frame.evaluate(el => el.textContent, elm)
         const _label = await this._get_label(_challenge_question)
-        const token = await this._click_good_images(frame, _label, cursor, page);
+        const token = await this._click_good_images(frame, _label, page);
         return token
       }
     } else {
@@ -38,14 +36,13 @@ export class PuppeterHcaptchaSolve {
     }
   }
 
-  private async _click_submit (frame: Frame, cursor: any) {
-    await cursor.click('.button-submit', {}, frame)
+  private async _click_submit (frame: Frame) {
+    await frame.click(".button-submit")
   }
 
-  private async _click_good_images (frame: Frame, label: string, cursor: any, page: Page): Promise<string | undefined> {
+  private async _click_good_images (frame: Frame, label: string, page: Page): Promise<string | undefined> {
     return new Promise(async (resolve) => {
-      if (cursor !== null) {
-        setTimeout(async () => {
+      setTimeout(async () => {
           for (let i = 0; i < 9; i++) {
             await frame.waitForSelector(`div.task-image:nth-child(${i + 1})`, {
               visible: true
@@ -58,18 +55,17 @@ export class PuppeterHcaptchaSolve {
             const url = await style.split('url("')[1].split('")')[0]
             const res = await get_result(url, label)
             if (res) {
-              await cursor.click(`div.task-image:nth-child(${i + 1})`, {}, frame)
+              await frame.click(`div.task-image:nth-child(${i + 1})`);
             }
             if (i == 8) {
-              await this._click_submit(frame, cursor)
+              await this._click_submit(frame)
               setTimeout(async () => {
                 const token = await page.evaluate("hcaptcha.getResponse();");
                 resolve(token)
               }, 2000)
             }
           }
-        }, 4000)
-      }
+        }, 3000)
     })
   }
 
