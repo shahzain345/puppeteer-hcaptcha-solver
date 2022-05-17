@@ -5,7 +5,7 @@ import { install_py_files } from './installation'
 install_py_files()
 export class PuppeterHcaptchaSolve {
   browser: Browser
-  constructor (browser) {
+  constructor (browser: Browser) {
     this.browser = browser
   }
   async solve (page: Page) {
