@@ -5,13 +5,19 @@ import httpx
 import hcaptcha_challenger as solver
 
 
-client = httpx.Client()
+solver.install()
+client = httpx.Client(timeout=60)
 
 
 def get_result(imgUrl: str, label: str) -> bool:
-    return YOLO(dir_model=None, onnx_prefix="yolov5n6").solution(
-        img_stream=client.get(imgUrl).read(), label=label
-    )
+    challenger = solver.new_challenger()
+    imgs = [client.get(imgUrl).read()]
+    if result := challenger.classify(prompt=label, images=imgs):
+        for i, _ in enumerate(imgs):
+            if result[i]:
+                return True
+            else:
+                return False
 
 
 app = Flask(__name__)

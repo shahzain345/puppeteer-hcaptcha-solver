@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "repository": "https://github.com/shahzain345/puppeteer-hcaptcha-solver",
   "scripts": {
-    "test": "node ./test/test.js",
+    "test": "node ./test/extra.js",
     "prepare": "husky install && yarn build",
     "build": "tsc",
     "lint": "yarn ts-standard --fix"
@@ -19,7 +19,10 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "ghost-cursor-frames": "^1.2.1",
     "puppeteer": "^14.0.0",
+    "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-stealth": "^2.11.1",
     "python-shell": "^3.0.1",
     "ts-standard": "^11.0.0"
   },
