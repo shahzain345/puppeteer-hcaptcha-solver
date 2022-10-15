@@ -50,4 +50,4 @@ Yes! It does support puppeteer-extra.
 ![](https://hi.shahzain.me/r/puppeteer-hcaptcha.gif)
 # Credits
 
-[QIN2DIM](https://github.com/QIN2DIM) for the yolo v5 interaction script.
+[QIN2DIM](https://github.com/QIN2DIM) For his great AI work.
