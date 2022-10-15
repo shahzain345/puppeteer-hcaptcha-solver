@@ -1,4 +1,7 @@
-// Author: Shahzain
+/**
+ * @author Shahzain Masood
+ * Github: https://github.com/shahzain345/puppeteer-hcaptcha-solver
+ */
 import { Page, Frame, Browser } from 'puppeteer'
 import { get_result } from './python/get_result'
 import { install_py_files } from './installation'
