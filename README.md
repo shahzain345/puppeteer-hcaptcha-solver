@@ -21,7 +21,7 @@ const { PuppeterHcaptchaSolve } = require("puppeteer-hcaptcha-solver");
 const puppeteer = require("puppeteer");
 (async () => {
     const browser = await puppeteer.launch({ headless: false });
-    const captcha = new PuppeterHcaptchaSolve(browser);
+    const captcha = new PuppeterHcaptchaSolve(browser); // if you want to use ghost-cursor to make human-like mousemovements simply set `use_gc` to true, like this `new PuppeterHcaptchaSolve(browser, true)`
     try {
         const page = await browser.newPage()
         await page.setDefaultNavigationTimeout(0);
