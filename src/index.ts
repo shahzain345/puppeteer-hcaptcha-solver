@@ -21,9 +21,16 @@ export class PuppeterHcaptchaSolve {
     let cursor: any = null;
     if (isElmPresent) {
       await page.click('iframe');
-      const frame = await page.frames()[1];
+      const frame = await page.frames().find( x => x.url().includes("https://newassets.hcaptcha.com"));;
       if (frame !== null) {
         await frame.waitForSelector('.prompt-text');
+        
+        await frame.click(".language-selector");
+        const [btnLang] = await frame.$x("//span[contains(text(), 'English')]");
+        if (btnLang) {
+          await btnLang.evaluate((el) => el.click());
+        }
+        
         const elm = await frame.$('.prompt-text');
         const _challenge_question = await frame.evaluate(el => el.textContent, elm);
         if (this.use_gc) {
