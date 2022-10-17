@@ -17,31 +17,41 @@ export class PuppeterHcaptchaSolve {
     this.use_gc = use_gc;
   }
   async solve(page: Page) {
-    const isElmPresent = await this._detect_captcha(page);
-    let cursor: any = null;
-    if (isElmPresent) {
-      await page.click('iframe');
-      const frame = await page.frames().find( x => x.url().includes("https://newassets.hcaptcha.com"));;
-      if (frame !== null) {
-        await frame.waitForSelector('.prompt-text');
-        
-        await frame.click(".language-selector");
-        const [btnLang] = await frame.$x("//span[contains(text(), 'English')]");
-        if (btnLang) {
-          await btnLang.evaluate((el) => el.click());
+    return new Promise(async (resolve) => {
+      const isElmPresent = await this._detect_captcha(page);
+      let cursor: any = null;
+      if (isElmPresent) {
+        await page.click('iframe');
+        const frame = await page.frames().find(x => x.url().includes("https://newassets.hcaptcha.com"));;
+        if (frame !== null && frame !== undefined) {
+          await frame.waitForSelector('.prompt-text').catch(async (e) => {
+            const token = await page.evaluate("hcaptcha.getResponse();")
+            if (token !== "") {
+              resolve(token)
+            } else {
+              resolve("Failed")
+            }
+          });
+
+          await frame.click(".language-selector");
+          const [btnLang] = await frame.$x("//span[contains(text(), 'English')]");
+          if (btnLang) {
+            await btnLang.click().catch(e => console.log("Failed to translate text"))
+
+          }
+          const elm = await frame.$('.prompt-text');
+          const _challenge_question = await frame.evaluate(el => el.textContent, elm);
+          if (this.use_gc) {
+            cursor = await createCursor(page);
+          }
+          const token = await this._click_good_images(frame, _challenge_question, page, cursor);
+          resolve(token)
         }
-        
-        const elm = await frame.$('.prompt-text');
-        const _challenge_question = await frame.evaluate(el => el.textContent, elm);
-        if (this.use_gc) {
-          cursor = await createCursor(page);
-        }
-        const token = await this._click_good_images(frame, _challenge_question, page, cursor);
-        return token
+      } else {
+        throw Error('Captcha not detected')
       }
-    } else {
-      throw Error('Captcha not detected')
-    }
+    })
+
   }
 
   private async _detect_captcha(page: Page) {

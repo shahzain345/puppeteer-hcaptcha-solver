@@ -7,7 +7,7 @@ puppeteer.use(StealthPlugin());
     const captcha = new PuppeterHcaptchaSolve(browser, true)
     try {
         const page = (await browser.pages())[0]
-        await page.goto('https://accounts.hcaptcha.com/demo?sitekey=4c672d35-0701-42b2-88c3-78380b0db560', {
+        await page.goto('https://accounts.hcaptcha.com/demo?sitekey=91e4137f-95af-4bc9-97af-cdcedce21c8c', {
             waitUntil: 'load',
             timeout: 0
         })
