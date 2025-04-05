@@ -1,3 +1,5 @@
+//Author: shayanop
+
 const { PuppeterHcaptchaSolve } = require('../lib')
 const puppeteer = require('puppeteer');
 (async () => {
